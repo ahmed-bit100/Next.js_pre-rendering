@@ -1,0 +1,74 @@
+by default, next.js pre-renders every page in the application
+pre-rendering means that next.js generates HTML for every page in advance instead of having it all done by client-side JavaScript
+
+in a plain react app, we have the initial load where App is not rendered, then the JS loads and we have the Hydration; React components are initialized and App becomes interactive
+
+why pre-render?
+1- Pre-rendering improves performance: 	
+-In a React app, you need to wait for the JavaScript to be executed
+-Possibly fetch data from an externa API and then render the UI
+==> wait time for the user
+-With a pre-rendered page, the HTML is already generated and loads faster
+
+2- Pre-rendering helps with SEO:
+-with a React app, if the search engine hits your page, it only sees a div tag with a rood id
+-In a next.js app, all the content is present within the source code, which helps index that page
+
+
+---
+two forms of pre-rendering in next.js
+- static generation : HTML pages generated at build time
+the HTML with all the data that makes up the content of the web page are generated in advance when you build your application 
+this is the recommended method to pre-render pages whenever possible 
+the page can be built once, cached by a CDN and served to the client almost instantly
+==> huge performance boost for your application 
+examples for when to use statuc generation:
+blog pages, e-commerce product pages , docs and marketing pages
+how do we achieve static generation:
+by default, the HTML for every page will be statically generated when we build our application.
+*build mode/development mode:
+
+Prod server : an optimized build is created once and then you deploy that build, you don't make 
+code changes on the go onve it is deployed
+
+Dev server : We should be able to make changes in our code and we want that code to immediately 
+reflect in the browser 
+
+==> for production builds, a page will be pre-rendered once when we run the build command 
+In development mode, the page is pre-rendered for every request you make 
+- server-side rendering 
+
+
+*getStaticProps
+
+1- getStaticProps runs only on the server side
+   the function will never run client side
+   the code you write inside getStaticProps won't even be included in the JS bundle
+that is sent to the browser.
+2- you can write server side code directly in getStaticProps
+   accessing the file system using the fs module or querying a database can be done in
+getStaticProps
+   you also don't have to worry bout including API keys in getStaticProps as that won't
+make it to the browser.
+3- getStaticProps is allowed only in a page and connot be run from a regular component file
+   it is used only for pre-rendering and not client-side data fetching
+4- getStaticProps should return an object and the object should contain a prop key which is aslo
+an object
+5- getStaticProps will run at build time. During development, getStaticProps runs on every request
+
+
+---- static generation summary ----
+-static generation is a method of pre-rendering where the HTML pages are generated at build time
+- this can be done with and without external data
+- export getStaticProps function for external data
+- HTML, JavaScript and a JSON file are generated
+- if you navigate directly to the page route, the HTML file is served
+- if you navigate to the page route from a different route, the page is created client side using the JavaScript and JSON prefetched from the server
+
+
+
+
+
+
+
+
